@@ -1,11 +1,13 @@
 #include "uart.h"
 
 extern void ldr_test(void);
+extern void my_memcpy_test(void);
 
 void my_ldr_str_test(void)
 {
 
 	ldr_test();
+	my_memcpy_test();
 }
 
 void kernel_main(void)

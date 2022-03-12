@@ -53,7 +53,7 @@ void uart_init(void)
 	/*set gpio14/15 pull down state*/
 	selector = readl(GPIO_PUP_PDN_CNTRL_REG0);
 	selector |= (0x2 << 30) | (0x2 << 28);
-	writel(selector, GPIO_PUP_PDN_CNTRL_REG0);
+	writel(selector, GPIO_PUP_PDN_CNTRL_REG0);	
 #endif
 
 	/* disable UART until configuration is done */
