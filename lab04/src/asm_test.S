@@ -1,6 +1,11 @@
 .global addx_test
 .global cmp_test
 .global cmp_and_return_test
+.global ands_return_test
+.global test_orr
+.global test_eor
+.global test_bfi
+.global test_ubfx
 
 addx_test:
 	// test add instruction
@@ -98,4 +103,92 @@ cmp_and_return_test:
 	cmp x0, x1
 	sbc x0, xzr, xzr
 	sub x0, xzr, x0
+	ret
+
+ands_return_test:
+	msr NZCV, xzr	   // clear the NZCV
+	ldr x1, =0xAA
+	ldr x2, =0x0
+	// test AND, no Z flag. x1 = x1&x2
+	and x1, x1, x2
+	mrs x0, NZCV
+
+	// test ANDS, z flag, if the result is 0, Z is 1
+	msr NZCV, xzr	   // clear the NZCV
+	mov x0, xzr
+	ldr x1, =0xAA
+	ands x1, x1, x2
+	mrs x0, NZCV
+
+	ret
+
+test_orr:
+	// ORR test  0xAA oor 0x55 = 0xFF
+	//           0xFF oor 0x00 = 0xFF
+	//           0xFF oor 0xFF = 0xFF
+	//           0x00 oor 0x00 = 0x00
+	mov x0, xzr
+	mov x1, #0xAA
+	mov x2, #0x55
+	orr x1, x1, x2
+
+	mov x1, #0xFF
+	orr x1, x1, xzr
+
+	mov x1, #0xFF
+	orr x1, x1, x1
+
+	orr x1, xzr, xzr
+
+	ret
+
+test_eor:
+	// test 2 exchange the value x1 = 0x07, x2 = 0xAA
+    // using the orr, just use two register.
+	// x1 = x1^x2
+	// x2 = x2^x1
+	// x1 = x1^x2
+	ldr x1, =0x07
+	ldr x2, =0xAA
+	eor x1, x1, x2
+	eor x2, x2, x1
+	eor x1, x1, x2
+	ret
+
+test_bfi:
+	// 0000 0000 0000 1010
+	//                 |
+	//                 V
+	//           0000 0000 0000 0000  ->  0000 1010 0000 0000
+	ldr x1, =0x000A
+	mov x2, xzr
+	bfi x2, x1, #0x8, #0x4
+
+	// 0000 0000 0000 1010
+	//                 |
+	//                 V
+	//           0000 0101 0000 0000  ->  0000 1010 0000 0000
+	ldr x1, =0x000A
+	mov x2, #0x0500
+	bfi x2, x1, #0x8, #0x4
+
+	ret
+
+test_ubfx:
+	// x1: 0000 0000 0000 0000  ->  0000 0000 0000 1111
+	//                     ^
+	//                     |
+	// x2:      0000 0000 1111 0000
+	mov x1, xzr
+	mov x2, #0x00F0
+	ubfx x1, x2, #0x4, #0x4
+
+	// x1: 0000 0000 0000 0000  ->  1111 1111 1111 1111
+	//                     ^
+	//                     |
+	//          1000 0000 1111 0000
+	mov x1, xzr
+	mov x2, #0x80F0
+	sbfx x1, x2, #0x4, #0x4
+
 	ret
