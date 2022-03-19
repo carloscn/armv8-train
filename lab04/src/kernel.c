@@ -10,6 +10,7 @@ extern void cmp_test(void);
 extern unsigned int cmp_and_return_test(int a, int b);
 
 extern void ands_return_test(void);
+extern void test_subx(void);
 extern void test_orr(void);
 extern void test_eor(void);
 extern void test_bfi(void);
@@ -41,7 +42,7 @@ void kernel_main(void)
 
 	//ands_return_test
 	ands_return_test();
-
+	test_subx();
 	// test orr
 	test_orr();
 	test_eor();

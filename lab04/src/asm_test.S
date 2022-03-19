@@ -1,6 +1,7 @@
 .global addx_test
 .global cmp_test
 .global cmp_and_return_test
+.global test_subx
 .global ands_return_test
 .global test_orr
 .global test_eor
@@ -10,8 +11,12 @@
 addx_test:
 	// test add instruction
 	mov x1, 0x1
-	mov x2, 0x2
+	mov x2, 0x1
 	add x3, x1, x2
+	add x3, x1, x2, lsl #8
+	add x3, x1, #0x8
+	add x3, x1, #0x8, lsl #12
+	adr x3, #0x01
 
 	// test add with lsb
 	mov x0, 0x0
@@ -105,6 +110,35 @@ cmp_and_return_test:
 	sub x0, xzr, x0
 	ret
 
+test_subx:
+
+	// test sbc let c is 1.
+	// 		let c is 1
+	msr NZCV, xzr	   	// clear the NZCV
+	mov x1, 0xffffffffffffffff
+	mov x2, 0x1
+	adds x3, x1, x2     // the x3 result is 0, and C = 0
+	mrs x0, NZCV       	// detail the system register
+
+	mov x1, 0xf			// C = 1
+	mov x2, 0x1
+	sbc x3, x1, x2     // x3 = x1 - x2 - 1 + 1 = 0xE
+	mrs x0, NZCV       // NZCV
+
+	msr NZCV, xzr	   	// clear the NZCV/ c = 0
+	mov x1, 0xf
+	mov x2, 0x1
+	sbc x3, x1, x2     // x3 = x1 - x2 - 1 + 0 = 0xD
+	mrs x0, NZCV       // NZCV
+
+	msr NZCV, xzr	   	// clear the NZCV
+	mov x1, 0x0
+	mov x2, 0xf
+	sbcs x3, x1, x2
+	mrs x0, NZCV       // NZCV shall be 1000
+
+	ret
+
 ands_return_test:
 	msr NZCV, xzr	   // clear the NZCV
 	ldr x1, =0xAA
@@ -175,20 +209,22 @@ test_bfi:
 	ret
 
 test_ubfx:
-	// x1: 0000 0000 0000 0000  ->  0000 0000 0000 1111
-	//                     ^
-	//                     |
-	// x2:      0000 0000 1111 0000
-	mov x1, xzr
-	mov x2, #0x00F0
-	ubfx x1, x2, #0x4, #0x4
 
-	// x1: 0000 0000 0000 0000  ->  1111 1111 1111 1111
-	//                     ^
+	// x1:      0000 0000 1111 0000
 	//                     |
+	//                     V
+	// x2: 0000 0000 0000 0000  ->  0000 0000 0000 1111
+
+	mov x1, #0x00F0
+	mov x2, xzr
+	ubfx x2, x1, #0x4, #0x4
+
 	//          1000 0000 1111 0000
-	mov x1, xzr
-	mov x2, #0x80F0
-	sbfx x1, x2, #0x4, #0x4
+	//                     |
+	//                     V
+	// x1: 0000 0000 0000 0000  ->  1111 1111 1111 1111
+	mov x1, #0x80F0
+	mov x2, xzr
+	sbfx x2, x1, #0x4, #0x4
 
 	ret
