@@ -1,4 +1,5 @@
 .global ldr_test
+
 // exp_1:
 // S1: Load 0x80000 to X1 register using the MOV instruction.
 // S2: Load 16 to X3 register using the MOV instruction.
