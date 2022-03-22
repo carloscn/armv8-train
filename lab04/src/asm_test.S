@@ -227,4 +227,12 @@ test_ubfx:
 	mov x2, xzr
 	sbfx x2, x1, #0x4, #0x4
 
+	// read atomic value of ID_AA64ISAR0_EL1 register to
+	// judge the LSE instruction state supporting.
+	mrs x1, ID_AA64ISAR0_EL1
+	mov x0, xzr
+	ubfx x0, x1, #20, #4	// read atomic bits [23:20]
+	mov x2, xzr
+	ubfx x2, x1, #4, #4     // read aes bits [7:4]
+
 	ret
