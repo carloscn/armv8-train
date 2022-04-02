@@ -13,6 +13,7 @@ COPS += -DCONFIG_BOARD_PI3B
 QEMU_FLAGS  += -machine raspi3
 else ifeq ($(board), rpi4)
 COPS += -DCONFIG_BOARD_PI4B
+COPS += -DUSING_ASM
 ifeq ($(shell uname),Darwin)
 QEMU_FLAGS  += -machine raspi4b2g
 else
