@@ -2,22 +2,36 @@
 #include "asm/gpio.h"
 #include "io.h"
 
+
+#if defined(USING_ASM)
+extern void asm_uart_send(char c);
+extern char asm_uart_recv();
+#endif
+
 void uart_send(char c)
 {
+#if !defined(USING_ASM)
 	/* wait for transmit FIFO to have an available slot*/
 	while (readl(U_FR_REG) & (1<<5))
 		;
 
 	writel(c, U_DATA_REG);
+#else
+	asm_uart_send(c);
+#endif
 }
 
 char uart_recv(void)
 {
+#if !defined(USING_ASM)
 	/* wait for receive FIFO to have data to read */
 	while (readl(U_FR_REG) & (1<<4))
 		;
 
 	return(readl(U_DATA_REG) & 0xFF);
+#else
+	return asm_uart_recv();
+#endif
 }
 
 void uart_send_string(char *str)
