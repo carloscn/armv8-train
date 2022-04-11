@@ -4,3 +4,8 @@
 * lab03: ldr memcpy memset [link](https://github.com/carloscn/armv8-train/tree/lab03)
 * lab04: add, sub, and, orr, eor, bfi, ubfx etc [link](https://github.com/carloscn/armv8-train/tree/lab04)
 * lab05: clz, cmp, cmn, b, br, bl, csel, cset, csinc etc [link](https://github.com/carloscn/armv8-train/tree/lab05)
+* lab06: adr adrp  [link](https://github.com/carloscn/armv8-train/tree/lab06)
+* lab07: ldxr, stxr ins [link](https://github.com/carloscn/armv8-train/tree/lab07)
+* lab08: using the assembly write driver to drive UART. [link](https://github.com/carloscn/armv8-train/tree/lab08)
+* lab09: arm gnu asm [link](https://github.com/carloscn/armv8-train/tree/lab09)
+* lab10: inline assembly [link](https://github.com/carloscn/armv8-train/tree/lab10)
