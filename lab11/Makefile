@@ -20,7 +20,7 @@ QEMU_FLAGS  += -machine raspi4
 endif
 endif
 
-COPS += -g -Wall -nostdlib -nostdinc -Iinclude
+COPS += -g -Wall -nostdlib -Iinclude
 ASMOPS = -g -Iinclude
 
 BUILD_DIR = build

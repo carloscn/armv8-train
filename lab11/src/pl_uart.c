@@ -2,6 +2,7 @@
 #include "asm/gpio.h"
 #include "io.h"
 
+
 void uart_send(char c)
 {
 	/* wait for transmit FIFO to have an available slot*/
@@ -9,6 +10,11 @@ void uart_send(char c)
 		;
 
 	writel(c, U_DATA_REG);
+}
+
+void putchar(char c)
+{
+	uart_send(c);
 }
 
 char uart_recv(void)

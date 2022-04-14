@@ -12,6 +12,9 @@
 el_string1:
 	.string "Booting at EL"
 
+.global el_string2
+el_string2:
+	.string "call el_2_entry\n"
 /*
  * map it on .text.boot section.
  */
@@ -34,6 +37,10 @@ master:
 	mrs x5, CurrentEL
 	cmp x5, #CurrentEL_EL3
 	b.eq el3_entry
+
+	adrp x0, el_string2
+	add x0, x0, :lo12:el_string2
+	bl put_string_uart
 	b el2_entry
 
 el3_entry:
@@ -63,8 +70,8 @@ el2_entry:
 
 el1_entry:
 	bl print_el
-	adr	x0, bss_begin
-	adr	x1, bss_end
+	adr	x0, _bss
+	adr	x1, _ebss
 	sub x1, x1, x0
 	bl memzero
 
