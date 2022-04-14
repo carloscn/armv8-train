@@ -42,9 +42,9 @@ master:
 	cmp x5, #CurrentEL_EL3
 	b.eq el3_entry
 
-	adrp x0, el_string2
-	add x0, x0, :lo12:el_string2
-	bl put_string_uart
+	//adrp x0, el_string2
+	//add x0, x0, :lo12:el_string2
+	//bl put_string_uart
 	b el2_entry
 	//b el1_entry
 
@@ -76,9 +76,9 @@ el2_entry:
 el1_entry:
 	bl print_el
 	/* register the exception vector */
-	// adrp x0, el_string3
-	// add x0, x0, :lo12:el_string3
-	// bl put_string_uart
+	adrp x0, el_string3
+	add x0, x0, :lo12:el_string3
+	bl put_string_uart
 
 	ldr x5, =vectors
 	msr VBAR_EL1, x5

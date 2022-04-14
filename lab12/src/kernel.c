@@ -51,19 +51,22 @@ static const char * const bad_mode_handler[] = {
 
 void bad_mode(struct pt_regs *regs, int reason, unsigned int esr)
 {
+	uart_send_string("func : bad_mode: bad mode\n");
+#if 0
 	printk("Bad mode for %s handler detected, far:0x%x esr:0x%x\n",
 			bad_mode_handler[reason], read_sysreg(far_el1),
 			esr);
+#endif
 }
 
 void kernel_main(void)
 {
 	uart_init();
 	init_printk_done();
-	printk("hello benos %x!\n", 0x12);
-	printk("try assert alignment exceptions...\n");
+	printk("printk: printk is ready\n");
+	uart_send_string("uart: hello kernel main\n");
 	assert_alignment();
-	printk("checking exceptions...\n");
+	uart_send_string("uart: end kernel main.\n");
 	while (1) {
 		uart_send(uart_recv());
 	}
