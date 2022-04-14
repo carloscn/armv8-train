@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "__locale": "c"
+        "stdarg.h": "c",
+        "string.h": "c",
         "uart.h": "c"
     }
 }
