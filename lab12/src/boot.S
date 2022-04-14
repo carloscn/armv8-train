@@ -11,14 +11,6 @@
 .global el_string1
 el_string1:
 	.string "Booting at EL"
-
-.global el_string2
-el_string2:
-	.string "call el_2_entry\n"
-
-.global el_string3
-el_string3:
-	.string "boot: reg vectors on VBAR_EL\n"
 /*
  * map it on .text.boot section.
  */
@@ -27,6 +19,7 @@ el_string3:
 _start:
 	mrs	x0, mpidr_el1
 	and	x0, x0,#0xFF		// Check processor id
+
 	cbz	x0, master			// Hang for all non-primary CPU
 	b	proc_hang
 
@@ -41,10 +34,6 @@ master:
 	mrs x5, CurrentEL
 	cmp x5, #CurrentEL_EL3
 	b.eq el3_entry
-
-	//adrp x0, el_string2
-	//add x0, x0, :lo12:el_string2
-	//bl put_string_uart
 	b el2_entry
 	//b el1_entry
 
@@ -52,7 +41,7 @@ el3_entry:
 	eret
 
 el2_entry:
-	bl print_el
+	//bl print_el
 
 	/* config some registers */
 	/* 1. config EL1 is aarch64 execute state */
@@ -76,9 +65,9 @@ el2_entry:
 el1_entry:
 	bl print_el
 	/* register the exception vector */
-	adrp x0, el_string3
-	add x0, x0, :lo12:el_string3
-	bl put_string_uart
+	// adrp x0, el_string3
+	// add x0, x0, :lo12:el_string3
+	// bl put_string_uart
 
 	ldr x5, =vectors
 	msr VBAR_EL1, x5

@@ -346,7 +346,7 @@ void init_printk_done(void)
 	g_record_len = 0;
 }
 
-int printk(const char *fmt, ...)
+int printk_s(const char *fmt, ...)
 {
 	va_list arg;
 	int len;

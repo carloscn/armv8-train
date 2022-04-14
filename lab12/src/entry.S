@@ -9,7 +9,7 @@
 #define BAD_FIQ 2
 #define BAD_ERROR 3
 
-//.global user_str0
+.global user_str0
 // .align 3
 // user_str0:
 //     .string "entry.S: join inv_entry \n"

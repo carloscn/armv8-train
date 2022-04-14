@@ -39,9 +39,6 @@ struct pt_regs {
 		:: "rZ"(_val)); \
 })
 
-extern void init_printk_done(void);
-extern int printk(const char *fmt, ...);
-
 static const char * const bad_mode_handler[] = {
 	"Sync Abort",
 	"IRQ",
@@ -51,19 +48,19 @@ static const char * const bad_mode_handler[] = {
 
 void bad_mode(struct pt_regs *regs, int reason, unsigned int esr)
 {
-	uart_send_string("func : bad_mode: bad mode\n");
+	uart_send_string("failed\n");
 #if 0
 	printk("Bad mode for %s handler detected, far:0x%x esr:0x%x\n",
 			bad_mode_handler[reason], read_sysreg(far_el1),
 			esr);
 #endif
 }
-
+// load_image /Users/carlos/workspace/work/armv8-train/lab12/benos.bin 0x80000
 void kernel_main(void)
 {
 	uart_init();
-	init_printk_done();
-	printk("printk: printk is ready\n");
+	//init_printk_done();
+	//printk("printk: printk is ready\n");
 	uart_send_string("uart: hello kernel main\n");
 	assert_alignment();
 	uart_send_string("uart: end kernel main.\n");
