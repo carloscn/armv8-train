@@ -64,7 +64,7 @@ debug: benos.bin benos.elf
 
 ifeq ($(shell uname),Darwin)
 cmd_qemu = aarch64-none-elf-gdb --tui benos.elf -x gdb_qemu.sh
-cmd_jlink = aarch64-none-elf-gdb --tui benos.elf -x gbd_jlink.sh
+cmd_jlink = aarch64-none-elf-gdb --tui benos.elf -x gdb_jlink.sh
 else
 cmd_qemu = gdb-multiarch --tui benos.elf -x gdb_qemu.sh
 cmd_jlink = gdb-multiarch --tui benos.elf -x gdb_jlink.sh
