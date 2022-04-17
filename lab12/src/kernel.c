@@ -59,8 +59,8 @@ void bad_mode(struct pt_regs *regs, int reason, unsigned int esr)
 void kernel_main(void)
 {
 	uart_init();
-	//init_printk_done();
-	//printk("printk: printk is ready\n");
+	init_printk_done();
+	printk("printk: printk is ready\n");
 	uart_send_string("uart: hello kernel main\n");
 	assert_alignment();
 	uart_send_string("uart: end kernel main.\n");

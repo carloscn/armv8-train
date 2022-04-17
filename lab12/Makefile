@@ -20,7 +20,7 @@ QEMU_FLAGS  += -machine raspi4
 endif
 endif
 
-COPS += -g -Wall -nostdlib -Iinclude
+COPS += -g -Wall -nostdlib -Iinclude  -mgeneral-regs-only
 ASMOPS = -g -Iinclude
 
 BUILD_DIR = build
@@ -30,7 +30,7 @@ all : benos.bin
 	@echo $(PLATFORM)
 
 clean :
-	rm -rf $(BUILD_DIR) *.bin *.elf
+	rm -rf $(BUILD_DIR) *.bin *.elf *.map
 
 $(BUILD_DIR)/%_c.o: $(SRC_DIR)/%.c
 	mkdir -p $(@D)
