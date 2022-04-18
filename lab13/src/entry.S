@@ -1,9 +1,4 @@
-/*
-| `VBAR_ELn + 0x000` | Synchronous    | Current EL with SP0 |
-| `+ 0x080`          | IRQ/vIRQ       | Current EL with SP0 |
-| `+ 0x100`          | FIQ/vFIQ       | Current EL with SP0 |
-| `+ 0x180`          | SError/vSError | Current EL with SP0 |
- */
+
 #define BAD_SYNC 0
 #define BAD_IRQ 1
 #define BAD_FIQ 2

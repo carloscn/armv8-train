@@ -74,69 +74,19 @@ void handle_timer_irq(unsigned int val)
 }
 
 // load_image /Users/carlos/workspace/work/armv8-train/lab12/benos.bin 0x80000
-static inline void arch_local_irq_enable(void)
-{
-	asm volatile(
-		"msr	daifclr, #2"
-		:
-		:
-		: "memory");
-}
-
-static inline void arch_local_irq_disable(void)
-{
-	asm volatile(
-		"msr	daifset, #2"
-		:
-		:
-		: "memory");
-}
-
-static int generic_timer_init(void)
-{
-	asm volatile(
-		"mov x0, #1\n"
-		"msr cntp_ctl_el0, x0"
-		:
-		:
-		: "memory");
-
-	return 0;
-}
-
-static int generic_timer_reset(unsigned int val)
-{
-	asm volatile(
-		"msr cntp_tval_el0, %x[timer_val]"
-		:
-		: [timer_val] "r" (val)
-		: "memory");
-
-	return 0;
-}
-
-static void enable_timer_interrupt(void)
-{
-	writel(CNT_PNS_IRQ, TIMER_CNTRL0_REG_ADDR);
-}
 
 void kernel_main(void)
 {
 	uart_init();
 	init_printk_done();
 	printk("call : timer_ps0_init\n");
-	// timer_ps0_init();
-	// printk("call timer_ps0_setvalue\n");
-	// timer_ps0_set_value(val);
-	// printk("call timer_ps0_enable\n");
-	// //timer_ps0_enable();
-	// printk("enable daif\n");
-
-	generic_timer_init();
-	generic_timer_reset(val);
-	enable_timer_interrupt();
-	arch_local_irq_enable();
-
+	timer_ps0_init();
+	printk("call timer_ps0_setvalue\n");
+	timer_ps0_set_value(val);
+	printk("call timer_ps0_enable\n");
+	timer_ps0_enable();
+	printk("enable daif\n");
+	arch_enable_daif();
 	printk("wait for interrupt\n");
 	while (1) {
 		uart_send(uart_recv());

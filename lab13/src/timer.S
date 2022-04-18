@@ -4,6 +4,7 @@
 .global timer_ps0_enable
 .global timer_ps0_set_value
 .global arch_enable_daif
+.global arch_disable_daif
 
 
 /*
@@ -18,6 +19,10 @@ arch_enable_daif:
 	msr	daifclr, #2
     ret
 
+arch_disable_daif:
+    msr	daifset, #2
+    ret
+
 timer_ps0_set_value:
     //mov x10, x30
     msr cntp_tval_el0, x0
@@ -27,9 +32,8 @@ timer_ps0_set_value:
 timer_ps0_enable:
     //mov x10, x30
     ldr x4, =TIMER_CNTRL0_REG_ADDR
-    mov x5, #1
+    mov x5, #2
     str x5, [x4]
-    ldr x6, [x4]
     //mov x30, x10
     ret
 /*

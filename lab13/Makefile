@@ -3,7 +3,7 @@ PLATFORM="MacOS"
 ARMGNU ?= aarch64-none-elf
 else
 PLATFORM="Unix-Like"
-ARMGNU ?= aarch64-linux-gnu
+ARMGNU ?= aarch64-none-elf
 endif
 
 board ?= rpi4
