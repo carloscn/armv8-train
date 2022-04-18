@@ -2,6 +2,7 @@
     "files.associations": {
         "stdarg.h": "c",
         "string.h": "c",
-        "uart.h": "c"
+        "uart.h": "c",
+        "sysregs.h": "c"
     }
 }

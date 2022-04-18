@@ -17,3 +17,9 @@
 #define CurrentEL_EL1 (1 << 2)
 #define CurrentEL_EL2 (2 << 2)
 #define CurrentEL_EL3 (3 << 2)
+
+#define CNTP_CTRL_EL0_TIMER_EN  (1)
+#define ARM_LOCAL_REG_BASE_ADDR (0xFF800000)
+#define TIMER_CNTRL0_REG_ADDR   (ARM_LOCAL_REG_BASE_ADDR + 0x40)
+#define IRQ_SOURCE0_REG_ADDR    (ARM_LOCAL_REG_BASE_ADDR + 0x60)
+#define CNT_PNS_IRQ (1 << 1)
