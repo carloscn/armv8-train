@@ -3,7 +3,7 @@ PLATFORM="MacOS"
 ARMGNU ?= aarch64-none-elf
 else
 PLATFORM="Unix-Like"
-ARMGNU ?= aarch64-linux-gnu
+ARMGNU ?= aarch64-none-elf
 endif
 
 board ?= rpi4
@@ -20,7 +20,7 @@ QEMU_FLAGS  += -machine raspi4
 endif
 endif
 
-COPS += -g -Wall -nostdlib -Iinclude
+COPS += -g -Wall -nostdlib -Iinclude  -mgeneral-regs-only
 ASMOPS = -g -Iinclude
 
 BUILD_DIR = build
@@ -30,7 +30,7 @@ all : benos.bin
 	@echo $(PLATFORM)
 
 clean :
-	rm -rf $(BUILD_DIR) *.bin *.elf
+	rm -rf $(BUILD_DIR) *.bin *.elf *.map
 
 $(BUILD_DIR)/%_c.o: $(SRC_DIR)/%.c
 	mkdir -p $(@D)
@@ -48,7 +48,7 @@ DEP_FILES = $(OBJ_FILES:%.o=%.d)
 -include $(DEP_FILES)
 
 benos.bin: $(SRC_DIR)/linker.ld $(OBJ_FILES)
-	$(ARMGNU)-ld -T $(SRC_DIR)/linker.ld -o $(BUILD_DIR)/benos.elf  $(OBJ_FILES)
+	$(ARMGNU)-ld -T $(SRC_DIR)/linker.ld -Map benos.map -o $(BUILD_DIR)/benos.elf  $(OBJ_FILES)
 	$(ARMGNU)-objcopy $(BUILD_DIR)/benos.elf -O binary benos.bin
 	cp $(BUILD_DIR)/benos.elf benos.elf
 
