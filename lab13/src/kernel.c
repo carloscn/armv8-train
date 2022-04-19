@@ -14,6 +14,7 @@ extern void timer_ps0_init(void);
 extern void timer_ps0_enable(void);
 extern void timer_ps0_set_value(int val);
 extern void arch_enable_daif();
+extern int call_stack(void);
 
 struct user_pt_regs {
 	__u64		regs[31];
@@ -77,18 +78,19 @@ void handle_timer_irq(unsigned int val)
 
 void kernel_main(void)
 {
-	uart_init();
-	init_printk_done();
-	printk("call : timer_ps0_init\n");
-	timer_ps0_init();
-	printk("call timer_ps0_setvalue\n");
-	timer_ps0_set_value(val);
-	printk("call timer_ps0_enable\n");
-	timer_ps0_enable();
-	printk("enable daif\n");
-	arch_enable_daif();
-	printk("wait for interrupt\n");
+	// uart_init();
+	// init_printk_done();
+	// printk("call : timer_ps0_init\n");
+	// timer_ps0_init();
+	// printk("call timer_ps0_setvalue\n");
+	// timer_ps0_set_value(val);
+	// printk("call timer_ps0_enable\n");
+	// timer_ps0_enable();
+	// printk("enable daif\n");
+	// //arch_enable_daif();
+	// printk("wait for interrupt\n");
+	call_stack();
 	while (1) {
-		uart_send(uart_recv());
+		//uart_send(uart_recv());
 	}
 }
