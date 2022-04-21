@@ -1,6 +1,9 @@
 #include "uart.h"
 #include "sysregs.h"
 #include "io.h"
+#include <asm/irq.h>
+#include <arm-gic.h>
+#include <asm/base.h>
 
 #define  __u64  unsigned long
 #define  u64 	__u64
@@ -14,7 +17,8 @@ extern void timer_ps0_init(void);
 extern void timer_ps0_enable(void);
 extern void timer_ps0_set_value(int val);
 extern void arch_enable_daif();
-extern int call_stack(void);
+extern int gic_init(int chip, unsigned long dist_base, unsigned long cpu_base);
+extern void gic_handle_irq(void);
 
 struct user_pt_regs {
 	__u64		regs[31];
@@ -53,19 +57,7 @@ void bad_mode(struct pt_regs *regs, int reason, unsigned int esr)
 // IRQ_SOURCE0_REG_ADDR
 void irq_handle(void)
 {
-	unsigned int irq = 0;
-	unsigned int regs = IRQ_SOURCE0_REG_ADDR;
-
-	irq = readl(IRQ_SOURCE0_REG_ADDR);
-	switch (irq) {
-		case (CNT_PNS_IRQ):
-		handle_timer_irq(100);
-		break;
-
-		default:
-		printk("Unkown IRQ 0x%x\n", irq);
-		break;
-	}
+	gic_handle_irq();
 }
 
 void handle_timer_irq(unsigned int val)
@@ -78,19 +70,20 @@ void handle_timer_irq(unsigned int val)
 
 void kernel_main(void)
 {
-	// uart_init();
-	// init_printk_done();
-	// printk("call : timer_ps0_init\n");
-	// timer_ps0_init();
-	// printk("call timer_ps0_setvalue\n");
-	// timer_ps0_set_value(val);
-	// printk("call timer_ps0_enable\n");
-	// timer_ps0_enable();
-	// printk("enable daif\n");
-	// //arch_enable_daif();
-	// printk("wait for interrupt\n");
-	call_stack();
+	uart_init();
+	init_printk_done();
+	gic_init(0, GIC_V2_DISTRIBUTOR_BASE, GIC_V2_CPU_INTERFACE_BASE);
+	printk("call : timer_ps0_init\n");
+	timer_ps0_init();
+	printk("call timer_ps0_setvalue\n");
+	timer_ps0_set_value(val);
+	printk("call timer_ps0_enable\n");
+	timer_ps0_enable();
+	gicv2_unmask_irq(GENERIC_TIMER_IRQ);
+	printk("enable daif\n");
+	arch_enable_daif();
+
 	while (1) {
-		//uart_send(uart_recv());
+		uart_send(uart_recv());
 	}
 }
