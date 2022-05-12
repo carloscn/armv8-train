@@ -1,0 +1,75 @@
+
+stack.o:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+0000000000000000 <s0>:
+   0:	52800000 	mov	w0, #0x0                   	// #0
+   4:	d65f03c0 	ret
+
+0000000000000008 <s1>:
+   8:	f81f0ffe 	str	x30, [sp, #-16]!
+   c:	97fffffd 	bl	0 <s0>
+  10:	f84107fe 	ldr	x30, [sp], #16
+  14:	d65f03c0 	ret
+
+0000000000000018 <s2>:
+  18:	f81f0ffe 	str	x30, [sp, #-16]!
+  1c:	97fffffb 	bl	8 <s1>
+  20:	f84107fe 	ldr	x30, [sp], #16
+  24:	d65f03c0 	ret
+
+0000000000000028 <s3>:
+  28:	f81f0ffe 	str	x30, [sp, #-16]!
+  2c:	97fffffb 	bl	18 <s2>
+  30:	f84107fe 	ldr	x30, [sp], #16
+  34:	d65f03c0 	ret
+
+0000000000000038 <s4>:
+  38:	f81f0ffe 	str	x30, [sp, #-16]!
+  3c:	97fffffb 	bl	28 <s3>
+  40:	f84107fe 	ldr	x30, [sp], #16
+  44:	d65f03c0 	ret
+
+0000000000000048 <s5>:
+  48:	f81f0ffe 	str	x30, [sp, #-16]!
+  4c:	97fffffb 	bl	38 <s4>
+  50:	f84107fe 	ldr	x30, [sp], #16
+  54:	d65f03c0 	ret
+
+0000000000000058 <s6>:
+  58:	f81f0ffe 	str	x30, [sp, #-16]!
+  5c:	97fffffb 	bl	48 <s5>
+  60:	f84107fe 	ldr	x30, [sp], #16
+  64:	d65f03c0 	ret
+
+0000000000000068 <s7>:
+  68:	f81f0ffe 	str	x30, [sp, #-16]!
+  6c:	97fffffb 	bl	58 <s6>
+  70:	f84107fe 	ldr	x30, [sp], #16
+  74:	d65f03c0 	ret
+
+0000000000000078 <s8>:
+  78:	f81f0ffe 	str	x30, [sp, #-16]!
+  7c:	97fffffb 	bl	68 <s7>
+  80:	f84107fe 	ldr	x30, [sp], #16
+  84:	d65f03c0 	ret
+
+0000000000000088 <s9>:
+  88:	f81f0ffe 	str	x30, [sp, #-16]!
+  8c:	97fffffb 	bl	78 <s8>
+  90:	f84107fe 	ldr	x30, [sp], #16
+  94:	d65f03c0 	ret
+
+0000000000000098 <s10>:
+  98:	f81f0ffe 	str	x30, [sp, #-16]!
+  9c:	97fffffb 	bl	88 <s9>
+  a0:	f84107fe 	ldr	x30, [sp], #16
+  a4:	d65f03c0 	ret
+
+00000000000000a8 <call_stack>:
+  a8:	f81f0ffe 	str	x30, [sp, #-16]!
+  ac:	97fffffb 	bl	98 <s10>
+  b0:	f84107fe 	ldr	x30, [sp], #16
+  b4:	d65f03c0 	ret
