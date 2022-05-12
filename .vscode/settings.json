@@ -3,6 +3,7 @@
         "stdarg.h": "c",
         "string.h": "c",
         "uart.h": "c",
-        "sysregs.h": "c"
+        "sysregs.h": "c",
+        "type.h": "c"
     }
 }
